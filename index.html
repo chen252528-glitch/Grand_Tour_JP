@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 白銀周 CBR250RR 大壯遊 6天5夜計畫 v2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif; background: #0a0f1a; color: #e2e8f0; line-height: 1.7; }
+  .container { max-width: 820px; margin: 0 auto; padding: 20px; }
+
+  h1 { font-size: 1.5rem; color: #f8fafc; margin-bottom: 4px; }
+  .subtitle { color: #64748b; font-size: 0.85rem; margin-bottom: 24px; }
+
+  .reason-box { background: linear-gradient(135deg, #1e3a5f, #1a2744); border-radius: 14px; padding: 20px; margin-bottom: 28px; border: 1px solid #2d4a6f; }
+  .reason-box h2 { color: #f59e0b; font-size: 1.1rem; margin-bottom: 10px; }
+  .reason-box p { color: #cbd5e1; font-size: 0.88rem; margin-bottom: 8px; }
+  .reason-box .highlight { color: #fbbf24; font-weight: 600; }
+
+  .info-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .info-card { background: #1e293b; border-radius: 10px; padding: 14px; border: 1px solid #334155; }
+  .info-card .label { color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .info-card .value { color: #f8fafc; font-size: 1rem; font-weight: 600; }
+
+  .day-card { background: #111827; border-radius: 16px; margin-bottom: 20px; overflow: hidden; border: 1px solid #1f2937; }
+  .day-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .day-header .day-title { font-size: 1.05rem; font-weight: 700; }
+  .day-header .day-date { color: #64748b; font-size: 0.82rem; }
+  .day-header .badge { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .badge-easy { background: #065f4620; color: #34d399; border: 1px solid #34d39940; }
+  .badge-mid { background: #f59e0b20; color: #fbbf24; border: 1px solid #fbbf2440; }
+  .badge-hard { background: #ef444420; color: #f87171; border: 1px solid #f8717140; }
+
+  .day-meta { padding: 0 20px 12px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .meta-item { font-size: 0.78rem; color: #94a3b8; }
+  .meta-item span { color: #e2e8f0; font-weight: 600; }
+
+  .day-body { padding: 0 20px 20px; }
+
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ''; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: #334155; }
+  .tl-item { position: relative; margin-bottom: 14px; }
+  .tl-item::before { content: ''; position: absolute; left: -22px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: #475569; border: 2px solid #1e293b; }
+  .tl-item.spot::before { background: #38bdf8; }
+  .tl-item.new::before { background: #f59e0b; }
+  .tl-item.ride::before { background: #475569; }
+  .tl-item .tl-time { font-size: 0.72rem; color: #64748b; font-weight: 600; letter-spacing: 0.3px; }
+  .tl-item .tl-content { font-size: 0.85rem; color: #cbd5e1; }
+  .tl-item .tl-content strong { color: #f8fafc; }
+  .tl-item .tl-note { font-size: 0.75rem; color: #94a3b8; margin-top: 2px; }
+  .tl-item .tag-new { background: #f59e0b22; color: #f59e0b; font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+  .tl-item .tag-free { background: #34d39922; color: #34d399; font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+  .tl-item .tag-toll { background: #ef444422; color: #f87171; font-size: 0.68rem; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+
+  .stay-box { background: #1e293b; border-radius: 10px; padding: 12px 16px; margin-top: 12px; border-left: 3px solid #8b5cf6; }
+  .stay-box .stay-label { font-size: 0.72rem; color: #8b5cf6; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stay-box .stay-text { font-size: 0.85rem; color: #e2e8f0; }
+  .stay-detail { font-size: 0.78rem; color: #94a3b8; margin-top: 6px; line-height: 1.6; }
+  .stay-detail strong { color: #c4b5fd; }
+
+  .closing-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.82rem; }
+  .closing-table th { background: #1e293b; color: #94a3b8; padding: 8px 12px; text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .closing-table td { padding: 8px 12px; border-bottom: 1px solid #1f2937; color: #cbd5e1; }
+  .closing-table tr:hover td { background: #1e293b40; }
+
+  .toll-summary { background: #1a1a2e; border-radius: 12px; padding: 18px; margin-bottom: 24px; border: 1px solid #2d2d5f; }
+  .toll-summary h3 { color: #a78bfa; font-size: 0.95rem; margin-bottom: 10px; }
+  .toll-summary p { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 6px; }
+
+  .note-box { background: #1a1a2e; border-left: 3px solid #f59e0b; padding: 14px 18px; border-radius: 0 10px 10px 0; margin: 16px 0; font-size: 0.82rem; color: #fbbf24; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .compare-card { background: #1e293b; border-radius: 10px; padding: 16px; border: 1px solid #334155; }
+  .compare-card h3 { font-size: 0.9rem; margin-bottom: 8px; }
+  .compare-card p { font-size: 0.82rem; color: #94a3b8; line-height: 1.6; }
+  .compare-card.recommended { border-color: #34d399; }
+  .compare-card.recommended h3 { color: #34d399; }
+
+  .map-link { display: inline-block; margin-top: 10px; background: #1a73e8; color: #fff; font-size: 0.78rem; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
+  .map-link:hover { background: #1557b0; }
+  .map-link::before { content: '📍 '; }
+
+  .budget-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.82rem; }
+  .budget-table th { background: #1e293b; color: #94a3b8; padding: 8px 12px; text-align: left; font-weight: 600; font-size: 0.75rem; }
+  .budget-table td { padding: 8px 12px; border-bottom: 1px solid #1f2937; color: #cbd5e1; }
+  .budget-table tr:last-child td { color: #fbbf24; font-weight: 700; border-top: 2px solid #334155; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>🏍️ 2026 白銀周 CBR250RR 大壯遊</h1>
+<p class="subtitle">熊本 → 山陰 → 北陸 → 飛驒 → 信州 → 群馬 → 君津｜v2 修訂版：6天5夜</p>
+
+<!-- Why 6 days -->
+<div class="reason-box">
+  <h2>💡 為什麼建議6天？</h2>
+  <p>白銀周5連休 = <span class="highlight">9/19(六)～9/23(三)</span>，只需多請 <span class="highlight">9/24(四) 一天有給</span>，效益巨大：</p>
+  <p>① <span class="highlight">避開9/23最恐怖的Uターン車潮</span> — 當天住群馬，隔天平日空路回君津</p>
+  <p>② 每天行程不趕，景點不再走馬看花，能好好享受下道風景</p>
+  <p>③ 全程幾乎不走高速 — 有料道路僅 <span class="highlight">¥1,540</span>（関門トンネル+安房トンネル+アクアライン）</p>
+  <p>④ CBR250RR 前傾騎姿每天少騎50-100km，身體負擔完全不同</p>
+</div>
+
+<!-- Key reference -->
+<div class="info-bar">
+  <div class="info-card">
+    <div class="label">🌅 9月下旬 日落時間</div>
+    <div class="value">17:50～18:10</div>
+    <div style="font-size:0.72rem;color:#64748b;margin-top:2px;">山陰18:05 / 信州17:50 / 關東17:40</div>
+  </div>
+  <div class="info-card">
+    <div class="label">🌄 日出時間</div>
+    <div class="value">5:45～5:55</div>
+    <div style="font-size:0.72rem;color:#64748b;margin-top:2px;">有效騎車時間 約12小時/天</div>
+  </div>
+</div>
+
+<!-- Attraction closing times -->
+<h2 style="font-size:1rem;color:#94a3b8;margin-bottom:8px;">⏰ 各景點營業 & 關門時間一覽</h2>
+<table class="closing-table">
+  <tr><th>景點</th><th>營業時間</th><th>最終入場</th><th>備註</th></tr>
+  <tr><td>出雲大社</td><td>6:00～20:00</td><td>—</td><td>素鵞社 16:30 關閉</td></tr>
+  <tr><td>松江城 天守</td><td>8:30～18:00</td><td>17:45</td><td>4～9月夏季時間</td></tr>
+  <tr><td>鳥取砂丘</td><td>24小時</td><td>—</td><td>砂之美術館 9:00～17:00</td></tr>
+  <tr><td>丸岡城</td><td>8:30～17:00</td><td>16:30</td><td>全年同一時間</td></tr>
+  <tr><td>高山 古い町並み</td><td>各店不同</td><td>—</td><td>多數店家 10:00～17:00</td></tr>
+  <tr><td>松本城</td><td>8:30～17:00</td><td>16:30</td><td>⚠️ 關門最早</td></tr>
+  <tr><td>ビーナスライン</td><td>道路24H</td><td>—</td><td>冬季封路，9月OK</td></tr>
+  <tr><td>伊香保博物館</td><td>8:30～18:00</td><td>17:15</td><td>4/25～10/31 夏季</td></tr>
+</table>
+
+<!-- Toll summary -->
+<div class="toll-summary">
+  <h3>🛣️ 有料道路 — 幾乎全免！</h3>
+  <p>📌 <strong>Day 1 全程下道OK！</strong>國道191號經由，450km / 約9~10.5小時。唯一收費：<strong>関門トンネル ¥110</strong>（バイク）。</p>
+  <p>📌 <strong>Day 2～3 全程下道</strong>：國道9號（山陰海岸）、鳥取自動車道（全線無料）等。</p>
+  <p>📌 <strong>Day 4 安房トンネル ¥790</strong>：國道158號（高山→松本間）唯一收費路段。其餘全下道。</p>
+  <p>📌 <strong>Day 5 全程下道</strong>：ビーナスライン＋一般國道，完全無料。</p>
+  <p>📌 <strong>Day 6 アクアライン ¥640</strong>：バイクETC。走國道17→16也可全程下道（多1.5小時）。</p>
+  <p style="color:#34d399;margin-top:10px;">💰 <strong>有料道路 合計たったの ¥1,540！</strong></p>
+  <table style="width:100%;font-size:0.82rem;margin-top:6px;border-collapse:collapse;">
+    <tr style="color:#94a3b8;"><td style="padding:3px 8px;">Day 1</td><td>関門トンネル（国道2号）</td><td style="text-align:right;">¥110</td></tr>
+    <tr style="color:#94a3b8;"><td style="padding:3px 8px;">Day 4</td><td>安房トンネル（国道158号）</td><td style="text-align:right;">¥790</td></tr>
+    <tr style="color:#94a3b8;"><td style="padding:3px 8px;">Day 6</td><td>アクアライン（ETC）</td><td style="text-align:right;">¥640</td></tr>
+    <tr style="color:#fbbf24;font-weight:700;border-top:1px solid #334155;"><td style="padding:5px 8px;" colspan="2">合計</td><td style="text-align:right;">¥1,540</td></tr>
+  </table>
+  <p style="color:#64748b;font-size:0.78rem;margin-top:6px;">※ 6天跑1,500km、收費道路比一頓飛驒牛還便宜 🥩</p>
+</div>
+
+<!-- ===== DAY 1 ===== -->
+<div class="day-card">
+  <div class="day-header" style="background:linear-gradient(90deg,#1e3a5f,#111827);">
+    <div>
+      <div class="day-title">Day 1 🚀 熊本 → 山陰海岸 → 出雲</div>
+      <div class="day-date">9/19（六）SW初日</div>
+    </div>
+    <span class="badge badge-hard">★★★★ 硬</span>
+  </div>
+  <div class="day-meta">
+    <div class="meta-item">距離：<span>~450km</span></div>
+    <div class="meta-item">全程下道（国道191号経由）</div>
+    <div class="meta-item">日落：<span>18:05</span></div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item ride">
+        <div class="tl-time">04:00 出發</div>
+        <div class="tl-content"><strong>熊本東區</strong>出發 → 國道3號北上</div>
+        <div class="tl-note">早起趁天亮前出九州！ <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">07:00</div>
+        <div class="tl-content">門司 → <strong>関門トンネル</strong> → 下關</div>
+        <div class="tl-note">國道2號海底隧道，バイク僅 ¥110！渡海到本州 <span class="tag-toll">有料 ¥110</span></div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">07:30～</div>
+        <div class="tl-content">下關 → <strong>國道191號</strong>沿山陰海岸北上</div>
+        <div class="tl-note">日本海沿いの絶景ルート！高速より景色が100倍いい <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">10:00頃</div>
+        <div class="tl-content"><strong>萩</strong>（城下町）— 途中休憩</div>
+        <div class="tl-note">余裕があれば萩城跡や松陰神社。時間なければコンビニ休憩だけでもOK</div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">10:30～</div>
+        <div class="tl-content">萩 → 益田 → 大田 → 國道9號 → <strong>出雲</strong></div>
+        <div class="tl-note">山陰海岸を走り続ける。途中で昼飯を食べよう <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">15:00～17:00</div>
+        <div class="tl-content">🏁 <strong>出雲到着</strong>、check in + 出雲そば</div>
+        <div class="tl-note">450km走りきった！Google予測9h＋休憩1.5h＝約11時間。焦らずのんびり</div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">17:30～18:10</div>
+        <div class="tl-content">🌅 <strong>稻佐之濱</strong>（出雲大社旁5分鐘）看夕陽</div>
+        <div class="tl-note">日落18:05。早く着いたら行ってみよう。遅くなったら翌朝でもOK</div>
+      </div>
+    </div>
+    <a class="map-link" href="https://www.google.com/maps/dir/熊本市東区/関門トンネル人道入口/萩城跡/出雲大社" target="_blank">Google Maps 路線</a>
+    <div class="stay-box">
+      <div class="stay-label">🏨 Night 1 泊：出雲</div>
+      <div class="stay-text"><strong>出雲市</strong> — 隔天一早就去出雲大社，住大社附近最方便</div>
+      <div class="stay-detail">
+        <strong>🎒 晴レイロ 77 HoSTEL</strong>：出雲大社最近的宿，走路到本殿！~¥3,500<br>
+        <strong>💊 カプセルホテル フルハウス</strong>：出雲市駅徒步3分，男性專用 ~¥3,000<br>
+        <strong>🏠 出雲ゲストハウス いとあん</strong>：出雲市駅徒步4分 ~¥3,000
+      </div>
+    </div>
+    <div class="note-box">
+      💡 <strong>v3 改善：Day 1 也全下道！</strong>Google Maps實測 國道191號經由 450km / 9時間。高速費 ¥7,000 → 関門トンネル ¥110 だけ。山陰海岸の絶景を走りながら出雲入り。急がなくてOK、夜着でも問題なし。
+    </div>
+  </div>
+</div>
+
+<!-- ===== DAY 2 ===== -->
+<div class="day-card">
+  <div class="day-header" style="background:linear-gradient(90deg,#0d3320,#111827);">
+    <div>
+      <div class="day-title">Day 2 ⛩️ 出雲大社 → 松江城 → 鳥取砂丘</div>
+      <div class="day-date">9/20（日）</div>
+    </div>
+    <span class="badge badge-easy">★★☆☆ 輕鬆</span>
+  </div>
+  <div class="day-meta">
+    <div class="meta-item">距離：<span>~155km</span></div>
+    <div class="meta-item">全程下道：<span class="tag-free">無料</span></div>
+    <div class="meta-item">日落：<span>18:05</span></div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item spot">
+        <div class="tl-time">06:00～08:30</div>
+        <div class="tl-content">⛩️ <strong>出雲大社</strong> 早朝參拜</div>
+        <div class="tl-note">6:00開門就去！清晨幾乎沒人，參道莊嚴肅穆。逛完+神門通早餐</div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">08:30～09:15</div>
+        <div class="tl-content">出雲 → 國道9號 → <strong>松江</strong> <span class="tag-free">無料</span></div>
+        <div class="tl-note">下道約40分鐘，沿宍道湖北岸走</div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">09:15～10:30</div>
+        <div class="tl-content"><strong>松江城 天守</strong>（8:30開門）</div>
+        <div class="tl-note">國寶天守。上午人少，慢慢逛約1小時</div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">10:30～12:30</div>
+        <div class="tl-content">松江 → 國道9號東進 → <strong>鳥取砂丘</strong></div>
+        <div class="tl-note">山陰海岸線，沿日本海走。享受風景 <span class="tag-free">全程無料</span></div>
+      </div>
+      <div class="tl-item new">
+        <div class="tl-time">12:30～14:30</div>
+        <div class="tl-content"><strong>鳥取砂丘</strong> <span class="tag-new">加碼</span></div>
+        <div class="tl-note">砂丘本身24H開放。推薦「馬の背」展望，走到日本海邊。午餐吃海鮮丼</div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">14:30～16:00</div>
+        <div class="tl-content"><strong>砂之美術館</strong>（9:00～17:00）+ 周邊散策</div>
+        <div class="tl-note">鳥取港直送的松葉蟹和白いか很有名</div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">17:30～18:00</div>
+        <div class="tl-content">🌅 砂丘夕陽</div>
+        <div class="tl-note">日落18:05。夕陽照砂丘是絕景</div>
+      </div>
+    </div>
+    <a class="map-link" href="https://www.google.com/maps/dir/出雲大社/松江城/鳥取砂丘" target="_blank">Google Maps 路線</a>
+    <div class="stay-box">
+      <div class="stay-label">🏨 Night 2 泊：鳥取</div>
+      <div class="stay-text"><strong>鳥取市</strong> — Day 1 長途後的恢復日，好好養體力</div>
+      <div class="stay-detail">
+        <strong>💊 Drop Inn 鳥取</strong>：鳥取駅徒步3分，新、乾淨、附免費早餐！¥3,500~ ⭐推薦<br>
+        <strong>🎒 ミライエBASE</strong>：鳥取駅徒步14分 ¥2,000~ 最便宜<br>
+        <strong>🏖️ ゲストハウス砂縁(SAEN)</strong>：鳥取砂丘旁，看星空和日出 ~¥3,000
+      </div>
+    </div>
+    <div class="note-box">
+      💡 <strong>v2 改善：3個景點（出雲大社・松江城・砂丘）都不趕。</strong>出雲大社清晨體驗最佳，松江城上午悠閒逛，下午到砂丘看夕陽。全天僅155km。
+    </div>
+  </div>
+</div>
+
+<!-- ===== DAY 3 ===== -->
+<div class="day-card">
+  <div class="day-header" style="background:linear-gradient(90deg,#3b2314,#111827);">
+    <div>
+      <div class="day-title">Day 3 🏯 鳥取 → 丸岡城 → 福井</div>
+      <div class="day-date">9/21（月・敬老の日）</div>
+    </div>
+    <span class="badge badge-mid">★★★☆ 中等</span>
+  </div>
+  <div class="day-meta">
+    <div class="meta-item">距離：<span>~320km</span></div>
+    <div class="meta-item">下道主體：<span>國道9→178→27→8</span></div>
+    <div class="meta-item">日落：<span>18:00</span></div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item ride">
+        <div class="tl-time">06:30 出發</div>
+        <div class="tl-content">鳥取 → <strong>鳥取自動車道</strong>（智頭方面）</div>
+        <div class="tl-note">鳥取道全線無料！至佐用JCT <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">07:30～12:00</div>
+        <div class="tl-content">佐用 → 國道29號北上 → 國道9號 → <strong>國道178號 山陰海岸</strong></div>
+        <div class="tl-note">經豊岡、天橋立方面。國道178號沿日本海絕景路線 <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">12:00～15:00</div>
+        <div class="tl-content">舞鶴 → 國道27號 → 敦賀 → 國道8號 → 福井</div>
+        <div class="tl-note">途中可在敦賀吃海鮮午餐（日本海さかな街）<span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">15:30～16:30</div>
+        <div class="tl-content"><strong>丸岡城</strong>（⚠️ 最終入場 16:30、閉館 17:00）</div>
+        <div class="tl-note">日本現存最古天守。參觀約45分鐘。務必16:30前入場！</div>
+      </div>
+    </div>
+    <a class="map-link" href="https://www.google.com/maps/dir/鳥取駅/豊岡市/舞鶴市/敦賀市/丸岡城/福井駅" target="_blank">Google Maps 路線</a>
+    <div class="stay-box">
+      <div class="stay-label">🏨 Night 3 泊：福井</div>
+      <div class="stay-text"><strong>福井市</strong> — 必吃：越前おろしそば + ソースカツ丼</div>
+      <div class="stay-detail">
+        <strong>🎒 SAMMIE'S（サミーズ）</strong>：福井駅東口徒步5分，古民家GH，有駐車場！ドミ¥3,300~/個室¥4,500~ ⭐推薦<br>
+        <strong>🏠 ラウンジ たき</strong>：福井市内 ¥3,600~<br>
+        <strong>🏨 備案</strong>：Hotel Econoなど商務旅館 素泊¥5,000~
+      </div>
+    </div>
+    <div class="note-box">
+      ⚠️ 丸岡城 16:30 最終入場是這天的硬約束。下道320km約需8小時（含休息），06:30出發可在15:30到達。如果途中耽擱，可跳過天橋立走更快的內陸路線。
+    </div>
+  </div>
+</div>
+
+<!-- ===== DAY 4 ===== -->
+<div class="day-card">
+  <div class="day-header" style="background:linear-gradient(90deg,#4a1e1e,#111827);">
+    <div>
+      <div class="day-title">Day 4 🥩 福井 → 高山（飛驒牛！）→ 松本</div>
+      <div class="day-date">9/22（火・國民の休日）</div>
+    </div>
+    <span class="badge badge-mid">★★★☆ 中等</span>
+  </div>
+  <div class="day-meta">
+    <div class="meta-item">距離：<span>~250km</span></div>
+    <div class="meta-item">國道158號主體</div>
+    <div class="meta-item">日落：<span>17:50</span></div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item ride">
+        <div class="tl-time">06:30 出發</div>
+        <div class="tl-content">福井 → <strong>國道158號</strong>東行</div>
+        <div class="tl-note">穿越九頭竜峽谷的山岳道路，風景一級棒 <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">07:30</div>
+        <div class="tl-content"><strong>九頭竜湖</strong>（ダム湖畔）</div>
+        <div class="tl-note">朝霧中的湖面很美，停車拍照5~10分鐘</div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">08:00～11:00</div>
+        <div class="tl-content">九頭竜 → 白鳥 → 郡上 → ひるがの高原 → <strong>せせらぎ街道</strong> → 高山</div>
+        <div class="tl-note">せせらぎ街道是騎士聖地！高原ワインディングロード <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item new">
+        <div class="tl-time">11:30～13:30</div>
+        <div class="tl-content">🥩 <strong>高山 古い町並み + 飛驒牛午餐</strong> <span class="tag-new">加碼</span></div>
+        <div class="tl-note">
+          🍣 路邊攤：飛驒牛握壽司 2貫 ¥600~1,000（邊走邊吃）<br>
+          🥩 坐下來：丸明・味蔵天國等 燒肉定食 ¥1,500~3,000<br>
+          💡 兩種都吃：先來握壽司開胃→再去吃燒肉！
+        </div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">13:30～15:00</div>
+        <div class="tl-content">高山 → 國道158號東行 → 平湯溫泉 → <strong>安房トンネル</strong> → 松本</div>
+        <div class="tl-note">安房トンネル ¥790（這段無法迴避）<span class="tag-toll">有料 ¥790</span></div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">15:30～16:30</div>
+        <div class="tl-content"><strong>松本城</strong>（⚠️ 最終入場 16:30、閉館 17:00）</div>
+        <div class="tl-note">國寶五城之一。與CBR合影的好地方。務必16:30前入場！</div>
+      </div>
+    </div>
+    <a class="map-link" href="https://www.google.com/maps/dir/福井駅/九頭竜湖/郡上八幡/高山市+古い町並/安房峠道路/松本城" target="_blank">Google Maps 路線</a>
+    <div class="stay-box">
+      <div class="stay-label">🏨 Night 4 泊：松本</div>
+      <div class="stay-text"><strong>松本市</strong> — 必吃：信州馬刺し + 手打ち蕎麥（午餐吃了飛驒牛，晚餐換口味）</div>
+      <div class="stay-detail">
+        <strong>💊 Hotel M Matsumoto</strong>：松本駅徒步3分，膠囊+大浴場！~¥4,000 ⭐推薦<br>
+        <strong>🎒 松本バックパッカーズ</strong>：ドミトリー ~¥3,100<br>
+        <strong>🏠 たびのホテル lit 松本</strong>：ホステル ~¥3,500
+      </div>
+    </div>
+    <div class="note-box">
+      🥩 <strong>v2 改善：放棄親不知，改走飛驒路線。</strong>距離從330km減至250km，難度從★4降至★3，還多了高山古街散策和飛驒牛午餐。國道158號本身就是經典山岳道路，九頭竜湖→せせらぎ街道→安房峠，騎車體驗一級棒。
+    </div>
+  </div>
+</div>
+
+<!-- ===== DAY 5 ===== -->
+<div class="day-card">
+  <div class="day-header" style="background:linear-gradient(90deg,#2d1b4e,#111827);">
+    <div>
+      <div class="day-title">Day 5 🌄 松本 → ビーナスライン → 伊香保</div>
+      <div class="day-date">9/23（三・秋分の日）SW最終日</div>
+    </div>
+    <span class="badge badge-mid">★★☆☆ 爽</span>
+  </div>
+  <div class="day-meta">
+    <div class="meta-item">距離：<span>~230km</span></div>
+    <div class="meta-item">全程下道 <span class="tag-free">無料</span></div>
+    <div class="meta-item">日落：<span>17:45</span></div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item spot">
+        <div class="tl-time">07:00</div>
+        <div class="tl-content">松本 → <strong>諏訪大社</strong>（上社本宮）</div>
+        <div class="tl-note">國道20號南下約45分。神社24H開放，早起趁清靜參拜 <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item new">
+        <div class="tl-time">08:30～11:30</div>
+        <div class="tl-content"><strong>ビーナスライン</strong>（霧ヶ峰高原） <span class="tag-new">加碼・本旅最推</span></div>
+        <div class="tl-note">從諏訪上霧ヶ峰→美ヶ原方向。標高1600m的高原絕景道路！全線無料 <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">12:00～12:30</div>
+        <div class="tl-content"><strong>さらしなの里展望駐車場</strong>（千曲市）</div>
+        <div class="tl-note">姨捨棚田一望。24H開放，10分鐘打卡</div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">12:30～15:00</div>
+        <div class="tl-content">千曲 → 國道18號 → 國道406號 → <strong>榛名山</strong></div>
+        <div class="tl-note">經輕井澤方向走下道進群馬 <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item new">
+        <div class="tl-time">15:00～15:30</div>
+        <div class="tl-content"><strong>榛名山</strong>（頭文字D 秋名山原型）<span class="tag-new">加碼</span></div>
+        <div class="tl-note">榛名湖一周。CBR250RR跑秋名山，浪漫到不行</div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">15:45～17:00</div>
+        <div class="tl-content"><strong>伊香保おもちゃと人形自動車博物館</strong>（最終入場 17:15）</div>
+        <div class="tl-note">頭文字D 藤原豆腐店再現！CBR騎士必訪。閉館18:00</div>
+      </div>
+    </div>
+    <a class="map-link" href="https://www.google.com/maps/dir/松本駅/諏訪大社+上社本宮/霧ヶ峰+富士見台/姨捨駅/榛名湖/伊香保おもちゃと人形自動車博物館/伊香保温泉+石段街" target="_blank">Google Maps 路線</a>
+    <div class="stay-box">
+      <div class="stay-label">🏨 Night 5 泊：伊香保溫泉</div>
+      <div class="stay-text"><strong>伊香保溫泉</strong> — 石段街散步 + 黃金之湯！最後一晚犒賞自己</div>
+      <div class="stay-detail">
+        <strong>♨️ 徳田屋旅館</strong>：素泊¥4,000~ / 2食付¥7,000~（家庭式溫泉旅館）<br>
+        <strong>♨️ お宿 かつほ</strong>：素泊¥5,000~<br>
+        ⚠️ 伊香保無背包客/膠囊，但溫泉旅館含湯其實不貴。5天騎車的疲勞值得泡一泡！
+      </div>
+    </div>
+    <div class="note-box">
+      🎯 <strong>這天是6天版的最大亮點。</strong>SW最終日全日本大塞車回東京，你卻悠哉在信州高原騎ビーナスライン、跑秋名山、泡伊香保溫泉。完全不受車潮影響。這就是多請一天假的價值！
+    </div>
+  </div>
+</div>
+
+<!-- ===== DAY 6 ===== -->
+<div class="day-card">
+  <div class="day-header" style="background:linear-gradient(90deg,#1a3a2a,#111827);">
+    <div>
+      <div class="day-title">Day 6 🏠 伊香保 → 君津</div>
+      <div class="day-date">9/24（四）平日 ← 有給休暇</div>
+    </div>
+    <span class="badge badge-easy">★★☆☆ 輕鬆</span>
+  </div>
+  <div class="day-meta">
+    <div class="meta-item">距離：<span>~200km</span></div>
+    <div class="meta-item">平日：<span>無車潮 🎉</span></div>
+    <div class="meta-item">日落：<span>17:40</span></div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item ride">
+        <div class="tl-time">08:00 出發</div>
+        <div class="tl-content">伊香保 → 國道17號南下</div>
+        <div class="tl-note">不趕！睡到自然醒，吃完早餐再走 <span class="tag-free">無料</span></div>
+      </div>
+      <div class="tl-item ride">
+        <div class="tl-time">08:00～12:00</div>
+        <div class="tl-content">國道17號 → 國道16號 → 木更津方面</div>
+        <div class="tl-note">全下道約4小時。或用アクアライン（ETC バイク¥640）省1.5小時</div>
+      </div>
+      <div class="tl-item spot">
+        <div class="tl-time">12:00～13:00</div>
+        <div class="tl-content">🏠 <strong>君津 到着！</strong></div>
+        <div class="tl-note">平日中午前抵達。完美收尾 🎉</div>
+      </div>
+    </div>
+    <a class="map-link" href="https://www.google.com/maps/dir/伊香保温泉/君津市" target="_blank">Google Maps 路線</a>
+    <div class="note-box" style="border-color:#34d399;color:#34d399;">
+      ✅ 平日的國道17→16號完全不塞。如果想更快，走 アクアライン（バイクETC僅¥640）是唯一建議花錢的地方——節省1.5小時非常值得。
+    </div>
+  </div>
+</div>
+
+<!-- Budget overview -->
+<h2 style="font-size:1rem;color:#94a3b8;margin:20px 0 12px;">💰 預算總覽（壓到最低版）</h2>
+<table class="budget-table">
+  <tr><th>項目</th><th>內容</th><th>費用</th></tr>
+  <tr><td>N1 出雲</td><td>GH/膠囊</td><td>¥3,000~3,500</td></tr>
+  <tr><td>N2 鳥取</td><td>Drop Inn / ミライエBASE</td><td>¥2,000~3,500</td></tr>
+  <tr><td>N3 福井</td><td>SAMMIE'S</td><td>¥3,300~4,500</td></tr>
+  <tr><td>N4 松本</td><td>Hotel M / バックパッカーズ</td><td>¥3,100~4,000</td></tr>
+  <tr><td>N5 伊香保</td><td>溫泉旅館（素泊~2食付）</td><td>¥4,000~7,000</td></tr>
+  <tr><td>有料道路</td><td>関門トンネル+安房トンネル+アクアライン</td><td>¥1,540</td></tr>
+  <tr><td>ガソリン</td><td>~1,500km ÷ 30km/L × ¥175</td><td>~¥8,750</td></tr>
+  <tr><td colspan="2" style="text-align:right;">合計（宿泊+道路+油錢）</td><td>¥25,690~33,290</td></tr>
+</table>
+<p style="font-size:0.78rem;color:#64748b;margin-bottom:24px;">※ 食費、觀光入場費另計。飛驒牛午餐約¥1,500~3,000。</p>
+
+<!-- 5 vs 6 comparison -->
+<h2 style="font-size:1rem;color:#94a3b8;margin:20px 0 12px;">📊 5天 vs 6天 比較</h2>
+<div class="compare">
+  <div class="compare-card">
+    <h3 style="color:#f87171;">5天版（9/19-23）</h3>
+    <p>• 日均 ~340km，CBR很操<br>
+       • 9/23 必須在車潮中回君津<br>
+       • ビーナスライン只能趕路通過<br>
+       • 幾乎全程要走高速<br>
+       • 有料道路 ~¥20,000+<br>
+       • 每天壓著關門時間趕</p>
+  </div>
+  <div class="compare-card recommended">
+    <h3>✅ 6天版（9/19-24）</h3>
+    <p>• 日均 ~250km，從容享受<br>
+       • 9/24 平日空路回家<br>
+       • ビーナスライン充分享受3小時<br>
+       • Day 2-6 可全程下道<br>
+       • 有料道路 たったの ¥1,540<br>
+       • 飛驒牛＋溫泉＋秋名山</p>
+  </div>
+</div>
+
+<div class="note-box" style="border-color:#34d399;color:#34d399;">
+  🏍️ <strong>結論：</strong>請 9/24 一天有給。6天跑1,500km環半個日本，有料道路僅 ¥1,540（比一頓飛驒牛還便宜）。住宿+油錢+通行費 合計不到 ¥3.5萬。怎麼算都值！
+</div>
+
+<p style="font-size:0.7rem;color:#475569;text-align:center;margin-top:32px;">v2.1 — 2026.02.16 更新：Day1全下道化（国道191号）/ 有料道路¥1,540 / 出雲泊分離 / 飛驒牛路線 / 住宿＆路線地圖</p>
+
+</div>
+</body>
+</html>
